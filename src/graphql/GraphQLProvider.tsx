@@ -5,14 +5,10 @@ import {
 	InMemoryCache,
 } from "@apollo/client";
 
-function ensureCorrectUri(input: string) {
-	const defaultOrigin = window.location.origin;
-	return new URL(input, defaultOrigin).toString();
-}
 const serverHost = import.meta.env["VITE_SERVER_GRAPHQL_URL"] as string;
 
 const link = new HttpLink({
-	uri: ensureCorrectUri(serverHost || ""),
+	uri: serverHost,
 });
 
 const client = new ApolloClient({
@@ -21,7 +17,6 @@ const client = new ApolloClient({
 	name: "railway-app-interview",
 	version: "1.0",
 });
-
 
 export function GraphQLProvider({ children }: { children: React.ReactNode }) {
 	return <ApolloProvider client={client}>{children}</ApolloProvider>;
