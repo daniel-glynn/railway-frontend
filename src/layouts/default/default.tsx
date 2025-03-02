@@ -1,7 +1,5 @@
 import { Head } from "./head";
 
-import { Footer } from "./footer";
-
 export const DefaultLayout = ({
 	children,
 }: {

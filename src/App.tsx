@@ -1,13 +1,19 @@
-import { RouterProvider, type createRouter } from "@tanstack/react-router";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 
 import { GraphQLProvider } from "./graphql/GraphQLProvider";
 import { OwnerProvider } from "./context/OwnerContext/OwnerProvider";
+import { routeTree } from "./routeTree.gen";
 
-type AppProps = {
-	router: ReturnType<typeof createRouter>;
-};
+const router = createRouter({ routeTree });
 
-const App = ({ router }: AppProps) => {
+declare module "@tanstack/react-router" {
+	interface Register {
+		// This infers the type of our router and registers it across your entire project
+		router: typeof router;
+	}
+}
+
+const App = () => {
 	return (
 		<GraphQLProvider>
 			<OwnerProvider>

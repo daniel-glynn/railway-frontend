@@ -22,6 +22,7 @@ const client = new ApolloClient({
 	version: "1.0",
 });
 
+
 export function GraphQLProvider({ children }: { children: React.ReactNode }) {
 	return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

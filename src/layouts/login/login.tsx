@@ -1,4 +1,3 @@
-import { Footer } from "../default/footer";
 import { Toaster } from "react-hot-toast";
 
 export const LoginLayout = ({

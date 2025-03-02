@@ -9,7 +9,6 @@ import {
 	Textarea,
 } from "@nextui-org/react";
 
-import { FireIcon } from "../icons/fireIcon";
 import type { AddProjectModalProps } from "./AddProjectModal.types";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
@@ -79,7 +78,6 @@ export const AddProjectModal = ({
 								style={{ paddingBottom: "0px" }}
 							>
 								<div className="flex gap-1">
-									<FireIcon />
 									<h4 className="text-medium font-medium">
 										Add another project
 									</h4>

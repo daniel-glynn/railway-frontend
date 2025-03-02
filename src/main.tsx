@@ -1,20 +1,9 @@
-import { createRouter } from "@tanstack/react-router";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { NextUIProvider } from "@nextui-org/react";
 
 import App from "./App.tsx";
-import { routeTree } from "./routeTree.gen.ts";
 import "./styles/tailwind.css";
-
-const router = createRouter({ routeTree });
-
-declare module "@tanstack/react-router" {
-	interface Register {
-		// This infers the type of our router and registers it across your entire project
-		router: typeof router;
-	}
-}
 
 const rootElement = document.querySelector("#root") as Element;
 if (!rootElement.innerHTML) {
@@ -23,7 +12,7 @@ if (!rootElement.innerHTML) {
 		<React.StrictMode>
 			<React.Suspense fallback="loading">
 				<NextUIProvider>
-					<App router={router} />
+					<App />
 				</NextUIProvider>
 			</React.Suspense>
 		</React.StrictMode>
