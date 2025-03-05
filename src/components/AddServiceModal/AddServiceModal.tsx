@@ -123,6 +123,7 @@ export const AddServiceModal = ({
 							<ModalFooter>
 								<Button
 									color="danger"
+									isLoading={loading}
 									variant="flat"
 									onPress={() => {
 										onClose();

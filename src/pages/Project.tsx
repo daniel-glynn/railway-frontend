@@ -29,6 +29,9 @@ export const ProjectPage = () => {
 	const router = useRouter();
 	const slug = window.location.pathname.split("/")[2];
 	const { owner } = useContext(OwnerContext);
+	if (!owner.username) {
+		router.history.push("/");
+	}
 
 	const [getProject, { loading: loadingProject, refetch }] =
 		useLazyQuery<ProjectData>(FETCH_PROJECT, {

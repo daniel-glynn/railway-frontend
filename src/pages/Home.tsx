@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { Divider } from "@nextui-org/react";
+import { Divider, Spinner } from "@nextui-org/react";
 import { LATEST_DEPLOYMENTS, RAILWAY_USER_DETAILS } from "../graphql/queries";
 import type { RailwayUserData } from "../types";
 
@@ -19,7 +19,7 @@ export const Home = () => {
 		router.history.push("/");
 	}
 
-	const [getData, { data: railwayUserData }] =
+	const [getData, { data: railwayUserData, loading }] =
 		useLazyQuery<RailwayUserData>(RAILWAY_USER_DETAILS);
 
 	const [getLatestDeployments, { data: deploymentData }] =
@@ -27,6 +27,7 @@ export const Home = () => {
 
 	const fetchData = async () => {
 		await getData({
+			fetchPolicy: "no-cache",
 			defaultOptions: {
 				context: {
 					headers: {
@@ -103,21 +104,25 @@ export const Home = () => {
 											flexWrap: "wrap",
 										}}
 									>
-										<div className="flex flex-wrap">
-											{railwayUserData?.me.projects.edges.map((edge) => (
-												<ProjectCard
-													key={edge.node.id}
-													date={edge.node.updatedAt}
-													description={edge.node.description}
-													id={edge.node.id}
-													servicesCount={edge.node.services?.edges.length}
-													title={edge.node.name}
-													environmentsCount={
-														edge?.node.environments?.edges.length
-													}
-												/>
-											))}
-										</div>
+										{loading ? (
+											<Spinner />
+										) : (
+											<div className="flex flex-wrap">
+												{railwayUserData?.me.projects.edges.map((edge) => (
+													<ProjectCard
+														key={edge.node.id}
+														date={edge.node.updatedAt}
+														description={edge.node.description}
+														id={edge.node.id}
+														servicesCount={edge.node.services?.edges.length}
+														title={edge.node.name}
+														environmentsCount={
+															edge?.node.environments?.edges.length
+														}
+													/>
+												))}
+											</div>
+										)}
 									</div>
 								</div>
 							</div>
