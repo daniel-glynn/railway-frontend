@@ -72,7 +72,7 @@ export const Navbar = (): JSX.Element => {
 									style={{ color: "white" }}
 									onPress={onOpen}
 								>
-									Add an empty project
+									Start a new project
 								</Button>
 								<Dropdown placement="bottom-end">
 									<DropdownTrigger>

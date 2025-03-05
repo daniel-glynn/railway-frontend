@@ -1,25 +1,45 @@
+import { useContext, useEffect, useState } from "react";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/breadcrumbs";
 
 import { DefaultLayout } from "../layouts/default/default";
 import { useRouter } from "@tanstack/react-router";
 import { useLazyQuery } from "@apollo/client";
-import { useContext, useEffect } from "react";
-import { FETCH_PROJECT } from "../graphql/queries";
-import type { ProjectData } from "../types/railway-objects";
-import { Divider, Link, Spinner, Tabs, Tab } from "@nextui-org/react";
+import { FETCH_PROJECT, FETCH_TEMPLATES } from "../graphql/queries";
+import type { ProjectData, TemplateData } from "../types/railway-objects";
+import {
+	Divider,
+	Link,
+	Spinner,
+	Tabs,
+	Tab,
+	Button,
+	useDisclosure,
+} from "@nextui-org/react";
 
 import { DeploymentCard } from "../components/DeploymentCard";
 import { ServiceCard } from "../components/ServiceCard/ServiceCard";
 import { cn } from "../util";
 import { OwnerContext } from "../context/OwnerContext/OwnerContext";
+import { AddServiceModal } from "../components/AddServiceModal";
 
 export const ProjectPage = () => {
+	const [projectData, setProjectData] = useState({} as ProjectData);
+	const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+
 	const router = useRouter();
 	const slug = window.location.pathname.split("/")[2];
 	const { owner } = useContext(OwnerContext);
 
-	const [getProject, { loading: loadingProject, data: projectData }] =
-		useLazyQuery<ProjectData>(FETCH_PROJECT);
+	const [getProject, { loading: loadingProject, refetch }] =
+		useLazyQuery<ProjectData>(FETCH_PROJECT, {
+			notifyOnNetworkStatusChange: true,
+			onCompleted: (data) => {
+				setProjectData(data);
+			},
+		});
+
+	const [getRecommendedTemplates, { data: templateData }] =
+		useLazyQuery<TemplateData>(FETCH_TEMPLATES);
 
 	useEffect(() => {
 		async function startFetching() {
@@ -27,6 +47,16 @@ export const ProjectPage = () => {
 				variables: {
 					projectId: slug,
 				},
+				defaultOptions: {
+					context: {
+						headers: {
+							"x-hacky-id": owner.id,
+						},
+					},
+				},
+			});
+
+			await getRecommendedTemplates({
 				defaultOptions: {
 					context: {
 						headers: {
@@ -80,21 +110,30 @@ export const ProjectPage = () => {
 											<h2 className="text-2xl font-semibold tracking-tight">
 												Services
 											</h2>
+											<Button
+												color="secondary"
+												style={{ color: "white" }}
+												onPress={onOpen}
+											>
+												Add a recommended service
+											</Button>
 										</div>
 									</div>
 									<Divider className="my-4" />
 									<div className="relative">
 										<div className="flex space-x-4 pb-4">
-											{projectData?.project.services.edges.map((service) => (
+											{projectData?.project?.services.edges.map((service) => (
 												<ServiceCard
 													key={service.node.id}
 													className="w-[200px]"
 													date={service.node.updatedAt}
+													ownerId={owner.id}
 													projectId={projectData.project.id}
 													serviceId={service.node.id}
+													setProjectData={setProjectData}
 													title={service.node.name}
 													environmentId={
-														projectData.project.environments.edges[0]?.node
+														projectData?.project?.environments.edges[0]?.node
 															.id || ""
 													}
 													icon={
@@ -117,7 +156,7 @@ export const ProjectPage = () => {
 									<Divider className="my-4" />
 									<div className="relative">
 										<div className="flex space-x-4 pb-4">
-											{projectData?.project.environments.edges.map(
+											{projectData?.project?.environments.edges.map(
 												(environment) => (
 													<>
 														<p className="font-bold">{environment.node.name}</p>
@@ -159,7 +198,7 @@ export const ProjectPage = () => {
 									<Divider className="my-4" />
 									<div className="relative">
 										<div className="flex space-x-4 pb-4">
-											{projectData?.project.deployments.edges.map(
+											{projectData?.project?.deployments.edges.map(
 												(deployment) => (
 													<DeploymentCard
 														key={deployment.node.id}
@@ -171,7 +210,7 @@ export const ProjectPage = () => {
 														serviceId={deployment.node.serviceId}
 														status={deployment.node.status}
 														environmentId={
-															projectData.project.environments.edges[0]?.node
+															projectData?.project?.environments.edges[0]?.node
 																.id || ""
 														}
 														serviceName={
@@ -190,6 +229,18 @@ export const ProjectPage = () => {
 					)}
 				</div>
 			</div>
+			<AddServiceModal
+				isOpen={isOpen}
+				ownerId={owner.id}
+				projectId={slug || ""}
+				refetchProjects={refetch}
+				templateData={templateData}
+				environmentId={
+					projectData?.project?.environments.edges[0]?.node.id || "production"
+				}
+				onClose={onClose}
+				onOpenChange={onOpenChange}
+			/>
 		</DefaultLayout>
 	);
 };

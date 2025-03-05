@@ -111,3 +111,31 @@ export const FETCH_PROJECT = gql`
 		}
 	}
 `;
+
+export const FETCH_TEMPLATES = gql`
+	query templates {
+		templates {
+			edges {
+				node {
+					name
+					id
+					description
+					category
+					image
+					serializedConfig
+				}
+			}
+		}
+	}
+`;
+
+export const FETCH_SERVICE = gql`
+	query service($serviceId: String) {
+		service(serviceId: $serviceId) {
+			name
+			id
+			icon
+			updatedAt
+		}
+	}
+`;

@@ -10,123 +10,123 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as HomeIndexImport } from './routes/home/index'
-import { Route as ProjectProjectIdImport } from './routes/project/$projectId'
-import { Route as AuthRegisterIndexImport } from './routes/auth/register/index'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as IndexImport } from "./routes/index";
+import { Route as HomeIndexImport } from "./routes/home/index";
+import { Route as ProjectProjectIdImport } from "./routes/project/$projectId";
+import { Route as AuthRegisterIndexImport } from "./routes/auth/register/index";
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/",
+	path: "/",
+	getParentRoute: () => rootRoute,
+} as any);
 
 const HomeIndexRoute = HomeIndexImport.update({
-  id: '/home/',
-  path: '/home/',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/home/",
+	path: "/home/",
+	getParentRoute: () => rootRoute,
+} as any);
 
 const ProjectProjectIdRoute = ProjectProjectIdImport.update({
-  id: '/project/$projectId',
-  path: '/project/$projectId',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/project/$projectId",
+	path: "/project/$projectId",
+	getParentRoute: () => rootRoute,
+} as any);
 
 const AuthRegisterIndexRoute = AuthRegisterIndexImport.update({
-  id: '/auth/register/',
-  path: '/auth/register/',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/auth/register/",
+	path: "/auth/register/",
+	getParentRoute: () => rootRoute,
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/project/$projectId': {
-      id: '/project/$projectId'
-      path: '/project/$projectId'
-      fullPath: '/project/$projectId'
-      preLoaderRoute: typeof ProjectProjectIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/home/': {
-      id: '/home/'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth/register/': {
-      id: '/auth/register/'
-      path: '/auth/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof AuthRegisterIndexImport
-      parentRoute: typeof rootRoute
-    }
-  }
+declare module "@tanstack/react-router" {
+	interface FileRoutesByPath {
+		"/": {
+			id: "/";
+			path: "/";
+			fullPath: "/";
+			preLoaderRoute: typeof IndexImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/project/$projectId": {
+			id: "/project/$projectId";
+			path: "/project/$projectId";
+			fullPath: "/project/$projectId";
+			preLoaderRoute: typeof ProjectProjectIdImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/home/": {
+			id: "/home/";
+			path: "/home";
+			fullPath: "/home";
+			preLoaderRoute: typeof HomeIndexImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/auth/register/": {
+			id: "/auth/register/";
+			path: "/auth/register";
+			fullPath: "/auth/register";
+			preLoaderRoute: typeof AuthRegisterIndexImport;
+			parentRoute: typeof rootRoute;
+		};
+	}
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/project/$projectId': typeof ProjectProjectIdRoute
-  '/home': typeof HomeIndexRoute
-  '/auth/register': typeof AuthRegisterIndexRoute
+	"/": typeof IndexRoute;
+	"/project/$projectId": typeof ProjectProjectIdRoute;
+	"/home": typeof HomeIndexRoute;
+	"/auth/register": typeof AuthRegisterIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/project/$projectId': typeof ProjectProjectIdRoute
-  '/home': typeof HomeIndexRoute
-  '/auth/register': typeof AuthRegisterIndexRoute
+	"/": typeof IndexRoute;
+	"/project/$projectId": typeof ProjectProjectIdRoute;
+	"/home": typeof HomeIndexRoute;
+	"/auth/register": typeof AuthRegisterIndexRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/project/$projectId': typeof ProjectProjectIdRoute
-  '/home/': typeof HomeIndexRoute
-  '/auth/register/': typeof AuthRegisterIndexRoute
+	__root__: typeof rootRoute;
+	"/": typeof IndexRoute;
+	"/project/$projectId": typeof ProjectProjectIdRoute;
+	"/home/": typeof HomeIndexRoute;
+	"/auth/register/": typeof AuthRegisterIndexRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/project/$projectId' | '/home' | '/auth/register'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/project/$projectId' | '/home' | '/auth/register'
-  id: '__root__' | '/' | '/project/$projectId' | '/home/' | '/auth/register/'
-  fileRoutesById: FileRoutesById
+	fileRoutesByFullPath: FileRoutesByFullPath;
+	fullPaths: "/" | "/project/$projectId" | "/home" | "/auth/register";
+	fileRoutesByTo: FileRoutesByTo;
+	to: "/" | "/project/$projectId" | "/home" | "/auth/register";
+	id: "__root__" | "/" | "/project/$projectId" | "/home/" | "/auth/register/";
+	fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ProjectProjectIdRoute: typeof ProjectProjectIdRoute
-  HomeIndexRoute: typeof HomeIndexRoute
-  AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
+	IndexRoute: typeof IndexRoute;
+	ProjectProjectIdRoute: typeof ProjectProjectIdRoute;
+	HomeIndexRoute: typeof HomeIndexRoute;
+	AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ProjectProjectIdRoute: ProjectProjectIdRoute,
-  HomeIndexRoute: HomeIndexRoute,
-  AuthRegisterIndexRoute: AuthRegisterIndexRoute,
-}
+	IndexRoute: IndexRoute,
+	ProjectProjectIdRoute: ProjectProjectIdRoute,
+	HomeIndexRoute: HomeIndexRoute,
+	AuthRegisterIndexRoute: AuthRegisterIndexRoute,
+};
 
 export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+	._addFileChildren(rootRouteChildren)
+	._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

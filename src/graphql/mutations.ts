@@ -49,3 +49,28 @@ export const CREATE_PROJECT = gql`
 		}
 	}
 `;
+
+export const CREATE_SERVICE = gql`
+	mutation createService(
+		$projectId: String
+		$environmentId: String
+		$templateServiceId: String
+		$serializedConfig: JSON
+	) {
+		createService(
+			projectId: $projectId
+			environmentId: $environmentId
+			templateServiceId: $templateServiceId
+			serializedConfig: $serializedConfig
+		) {
+			workflowId
+			projectId
+		}
+	}
+`;
+
+export const DELETE_SERVICE = gql`
+	mutation deleteService($id: String) {
+		deleteService(id: $id)
+	}
+`;

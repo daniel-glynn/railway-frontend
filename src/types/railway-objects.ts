@@ -166,3 +166,34 @@ export type ProjectData = {
 		};
 	};
 };
+
+export type ServiceData = {
+	service: {
+		name: string;
+		id: string;
+		updatedAt: Date;
+		icon?: string;
+	};
+};
+
+export type TemplateData = {
+	templates: {
+		edges: Array<{
+			node: {
+				name: string;
+				id: string;
+				description: string;
+				category: string;
+				image: string;
+				serializedConfig: JSON;
+			};
+		}>;
+	};
+};
+
+export type CreateServiceMutation = {
+	createService: {
+		workflowId: string;
+		projectId: string;
+	};
+};
